@@ -1,0 +1,14 @@
+# keys and local settings
+.env
+.env.*
+*.key
+# generated audio and video
+*.mp3
+*.wav
+*.part.mp4
+frames/
+dist/
+# macOS and Python
+.DS_Store
+__pycache__/
+*.pyc

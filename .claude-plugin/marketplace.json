@@ -1,0 +1,12 @@
+{
+  "name": "novacrest-skills",
+  "owner": { "name": "Novacrest Marketing" },
+  "description": "Claude skills the Novacrest marketing team shares. Add this repo once as a marketplace in Claude, then install any plugin in it.",
+  "plugins": [
+    {
+      "name": "motion-how-to-video",
+      "source": "./plugins/motion-how-to-video",
+      "description": "Make a narrated how-to video of an app flow: real screens, a Claude Motion film, an English ElevenLabs voice under each caption, one MP4."
+    }
+  ]
+}

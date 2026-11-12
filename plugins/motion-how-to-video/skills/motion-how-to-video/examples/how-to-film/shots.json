@@ -1,0 +1,139 @@
+{
+  "shots": {
+    "hw_a": {
+      "path": "claude.ai/new"
+    },
+    "hw_b": {
+      "path": "claude.ai/new"
+    },
+    "hw_c": {
+      "path": "claude.ai/new"
+    },
+    "hw_d": {
+      "path": "claude.ai/new"
+    },
+    "hw_mp0": {
+      "path": "claude.ai/artifact/<the film page>"
+    },
+    "hw_pick": {
+      "path": "elevenlabs.io/app/speech-synthesis/text-to-speech"
+    },
+    "hw_tts": {
+      "path": "elevenlabs.io/app/speech-synthesis/text-to-speech"
+    },
+    "tr_list": {
+      "path": "/transfers"
+    },
+    "tr_s1": {
+      "path": "/create-transfers"
+    },
+    "tr_s3_items": {
+      "path": "/create-transfers"
+    },
+    "tr_s4": {
+      "path": "/create-transfers"
+    }
+  },
+  "patches": {
+    "hw_b_l1": {
+      "rect": [
+        439.0,
+        347.0,
+        586.0,
+        26.0
+      ],
+      "space": "view"
+    },
+    "hw_b_l2": {
+      "rect": [
+        439.0,
+        375.5,
+        608.0,
+        26.0
+      ],
+      "space": "view"
+    },
+    "hw_b_l3": {
+      "rect": [
+        439.0,
+        404.0,
+        160.0,
+        26.0
+      ],
+      "space": "view"
+    },
+    "hw_d_l1": {
+      "rect": [
+        439.0,
+        347.0,
+        600.0,
+        26.0
+      ],
+      "space": "view"
+    },
+    "hw_d_l2": {
+      "rect": [
+        439.0,
+        375.5,
+        356.0,
+        26.0
+      ],
+      "space": "view"
+    },
+    "hw_tf1": {
+      "rect": [
+        225.5,
+        57.0,
+        1060.5,
+        596.5
+      ],
+      "space": "view"
+    },
+    "hw_tf2": {
+      "rect": [
+        225.5,
+        57.0,
+        1060.5,
+        596.5
+      ],
+      "space": "view"
+    },
+    "hw_tf3": {
+      "rect": [
+        225.5,
+        57.0,
+        1060.5,
+        596.5
+      ],
+      "space": "view"
+    },
+    "hw_tf4": {
+      "rect": [
+        225.5,
+        57.0,
+        1060.5,
+        596.5
+      ],
+      "space": "view"
+    },
+    "hw_tf5": {
+      "rect": [
+        225.5,
+        57.0,
+        1060.5,
+        596.5
+      ],
+      "space": "view"
+    },
+    "hw_tf6": {
+      "rect": [
+        225.5,
+        57.0,
+        1060.5,
+        596.5
+      ],
+      "space": "view"
+    }
+  },
+  "strips": {}
+}

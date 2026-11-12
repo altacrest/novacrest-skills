@@ -1,0 +1,8 @@
+{
+  "name": "motion-how-to-video",
+  "displayName": "How-to video",
+  "version": "2.0.0",
+  "description": "Make a narrated how-to video of an app flow: real screens captured in Chrome, a Claude Motion film with one step per scene, English narration by ElevenLabs (Matilda) under each caption, mixed into one MP4.",
+  "author": { "name": "Sean Adams" },
+  "keywords": ["video", "how-to", "tutorial", "claude-motion", "elevenlabs", "narration"]
+}

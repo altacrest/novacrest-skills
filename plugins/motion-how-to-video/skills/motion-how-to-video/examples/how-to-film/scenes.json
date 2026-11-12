@@ -1,0 +1,88 @@
+{
+  "v": 1,
+  "look": "Guided cursor over real screenshots: the actual OmniOrders screens in a browser window, a gliding cursor, ripple on click, typing revealed in place. Captions sit on a dark plate.",
+  "palettes": [
+    [
+      "#16213E",
+      "#11ACE4",
+      "#F4F7FB",
+      "#2FD193"
+    ],
+    [
+      "#F7F8FA",
+      "#E8702A",
+      "#1B1F24",
+      "#2FB37A"
+    ],
+    [
+      "#3A2A5C",
+      "#9D8CFF",
+      "#F3EFFF",
+      "#58D6A0"
+    ]
+  ],
+  "theirs": 1,
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "background": "#16213E",
+  "fonts": {
+    "display": {
+      "family": "Sora",
+      "or": "plus-jakarta-sans"
+    },
+    "sans": {
+      "family": "Inter",
+      "or": "instrument-sans"
+    },
+    "mono": {
+      "family": "JetBrains Mono",
+      "or": "dm-mono"
+    }
+  },
+  "stage": "final",
+  "scenes": [
+    {
+      "id": "open",
+      "name": "How-to",
+      "dur": 5,
+      "desc": "Title card: a how-to video made in Claude Motion, with a voice; Claude's new-chat page rises behind it."
+    },
+    {
+      "id": "ask",
+      "name": "Ask Claude",
+      "dur": 15.5,
+      "desc": "The Claude composer: the prompt asking for a Motion film of the transfer steps on the real screens is typed, then sent."
+    },
+    {
+      "id": "build",
+      "name": "Claude builds it",
+      "dur": 11,
+      "desc": "Real OmniOrders screens flash as they are captured; the film opens in Claude Motion and plays."
+    },
+    {
+      "id": "export",
+      "name": "Export",
+      "dur": 6.5,
+      "desc": "On the film page, the download arrow under the player exports the MP4."
+    },
+    {
+      "id": "voice",
+      "name": "Voice",
+      "dur": 15,
+      "desc": "ElevenLabs: Matilda picked; one caption pasted into Text to Speech; Generate speech."
+    },
+    {
+      "id": "mix",
+      "name": "Mix",
+      "dur": 13,
+      "desc": "Back in Claude: plus, Upload or add files; the prompt asking Claude to put each clip under its caption."
+    },
+    {
+      "id": "end",
+      "name": "Done",
+      "dur": 7,
+      "desc": "End card: ask, export, voice, mix, and what you need."
+    }
+  ]
+}

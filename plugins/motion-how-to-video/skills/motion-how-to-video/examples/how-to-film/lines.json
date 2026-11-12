@@ -1,0 +1,15 @@
+{
+  "open": "Make a how-to video in Claude Motion, voice and all.",
+  "ask-a": "Open the OmniOrders test account in Chrome, then open Claude.",
+  "ask-b": "Ask for a Motion film of the steps, on the real screens.",
+  "ask-c": "One step per scene, a cursor, a short caption. Then send.",
+  "build-a": "Claude captures each screen and builds the film.",
+  "build-b": "It opens in Claude Motion. Play it, and ask for any changes.",
+  "export": "When it looks right, click the download arrow to export the MP4.",
+  "voice-a": "Now the voice. In ElevenLabs, pick the Matilda voice.",
+  "voice-b": "Paste one caption, click Generate speech, and download the clip.",
+  "voice-c": "Make one clip for each caption.",
+  "mix-a": "Back in Claude, click plus and add the MP4 and the clips.",
+  "mix-b": "Ask Claude to put each clip under its caption. You get back the finished MP4.",
+  "end": "That's it. Real screens, a clear voice, ready for the docs."
+}
