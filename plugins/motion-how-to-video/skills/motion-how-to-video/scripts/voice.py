@@ -194,9 +194,28 @@ def heard(model, path):
     return " ".join(s.text.strip() for s in segs).strip()
 
 
+_NUM = dict(zip([str(i) for i in range(21)], "zero one two three four five six seven eight nine ten eleven twelve "
+                "thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty".split()))
+
+
 def words(t):
+    """lower-case words, numbers 0-20 spelled out (Whisper writes "11 Labs" for ElevenLabs)"""
     t = t.lower().replace("’", "'").replace("-", " ")
-    return re.sub(r"[^a-z0-9' ]+", " ", t).split()
+    return [_NUM.get(w, w) for w in re.sub(r"[^a-z0-9' ]+", " ", t).split()]
+
+
+def cer(ref, hyp):
+    """character error rate with spaces dropped, so "NovaCrest" and "Novacrest", or "11 Labs" and "ElevenLabs", match"""
+    a, b = "".join(words(ref)).replace("'", ""), "".join(words(hyp)).replace("'", "")
+    if not a:
+        return 0.0 if not b else 1.0
+    d = list(range(len(b) + 1))
+    for i in range(1, len(a) + 1):
+        prev, d[0] = d[0], i
+        for j in range(1, len(b) + 1):
+            cur = min(d[j] + 1, d[j - 1] + 1, prev + (a[i - 1] != b[j - 1]))
+            prev, d[j] = d[j], cur
+    return d[len(b)] / len(a)
 
 
 def wer(ref, hyp):
@@ -335,8 +354,8 @@ def cmd_make(a):
         row = {"text": lines[lid], "sent": sent, "seconds": mp3_seconds(dest)}
         if model:
             h = heard(model, dest)
-            row.update(heard=h, wer=round(wer(sent, h), 3))
-            row["flag"] = row["wer"] > WER_LIMIT
+            row.update(heard=h, wer=round(wer(sent, h), 3), cer=round(cer(sent, h), 3))
+            row["flag"] = row["wer"] > WER_LIMIT and row["cer"] > 0.02   # both: a misreading, not a spelling
         rec["lines"][lid] = row
         rec_path.write_text(json.dumps(rec, indent=2, ensure_ascii=False) + "\n")
         note = ""

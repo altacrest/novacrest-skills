@@ -174,7 +174,7 @@ def cmd_mix(a):
     norm = ("loudnorm=I=%g:TP=-1.5:LRA=11:measured_I=%s:measured_TP=%s:measured_LRA=%s:measured_thresh=%s:"
             "offset=%s:linear=true" % (LUFS, ms["input_i"], ms["input_tp"], ms["input_lra"], ms["input_thresh"],
                                        ms["target_offset"]))
-    graph += "," + norm + ",aresample=48000[vox]"
+    graph += "," + norm + ",aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo[vox]"   # ffmpeg 4.4 needs the layout pinned
     if has_audio and a.score > 0:
         graph += (";[0:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,volume=%g[bed]"
                   ";[vox][bed]amix=inputs=2:normalize=0:dropout_transition=0:duration=longest,apad[aout]" % a.score)

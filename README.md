@@ -4,13 +4,13 @@ Claude plugins the Novacrest marketing team shares. Add this repository to Claud
 
 | Plugin | What it does |
 | --- | --- |
-| [How-to video](plugins/motion-how-to-video) | A narrated how-to video of any app flow: real screens, a Claude Motion film, an English voice under each caption, one MP4. |
+| [How-to video](plugins/motion-how-to-video) | A narrated how-to video of any app flow: real screens, a Claude Motion film, an English voice under each caption, one MP4. [Watch how it works](https://github.com/altacrest/novacrest-skills/releases/download/v2.0.0/how-to-video.mp4). |
 
 ## Install in the Claude app
 
 1. In Claude, open **Customize**, then **Plugins**.
 2. Click **+ Add**, then **Add marketplace**.
-3. Pick **novacrest-skills** from the list (or paste `altacrest/novacrest-skills`) and click **Sync**.
+3. Type `altacrest/novacrest-skills` in the box and choose **Use "altacrest/novacrest-skills"** (the list may not show the repo yet). Leave **Sync automatically** on, so updates arrive by themselves, and click **Sync**.
 4. Find the plugin you want and click **Install**.
 
 You need GitHub connected to Claude and access to this repository. No access yet? Ask Sean. An organization admin can also add the marketplace for everyone in the organization.

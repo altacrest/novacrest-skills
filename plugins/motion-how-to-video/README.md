@@ -2,6 +2,8 @@
 
 Make a narrated how-to video of any app flow with Claude. Claude walks the app's real screens, builds the film in Claude Motion, and an ElevenLabs voice (Matilda) reads each caption in English. You get one MP4, ready for a docs page, the quick start or YouTube.
 
+**Watch the walkthrough (84 seconds, made with this skill):** [how-to-video.mp4](https://github.com/altacrest/novacrest-skills/releases/download/v2.0.0/how-to-video.mp4)
+
 ## What you need
 
 - The Claude desktop app with Claude in Chrome.
@@ -15,7 +17,7 @@ In the Claude app:
 
 1. Open **Customize**, then **Plugins**.
 2. Click **+ Add**, then **Add marketplace**.
-3. Pick **novacrest-skills** (or paste `altacrest/novacrest-skills`) and click **Sync**.
+3. Type `altacrest/novacrest-skills` and choose **Use "altacrest/novacrest-skills"**. Leave **Sync automatically** on and click **Sync**.
 4. Find **How-to video** and click **Install**.
 
 In Claude Code: `/plugin install motion-how-to-video --marketplace altacrest/novacrest-skills`. A ZIP upload works too; see the [main README](../../README.md).
