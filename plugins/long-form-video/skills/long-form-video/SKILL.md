@@ -56,7 +56,8 @@ Google's APIs (the Novacrest network allowlist; measured Nov 13 2026). So:
 - **The voice** runs in the user's own Terminal (`voice.py`, one paste-ready command).
 - **Stills, clips and uploads** happen in the user's signed-in Chrome through Claude in Chrome: Gemini
   (gemini.google.com) for stills, the Higgsfield web app for clips, YouTube Studio and instagram.com for uploads.
-- **The Higgsfield connector** (custom connector `https://mcp.higgsfield.ai/mcp`) can't make media. It reads the
+- **The Higgsfield connector** (Higgsfield AI in Claude's Connectors directory, `https://mcp.higgsfield.ai/mcp`) can't
+  make media. It reads the
   credits (`balance`), the models and their settings (`models_list`, `models_get`) and every finished generation with
   its link (`show_generations`). Use it to price the clips and to find each new clip.
 - **Everything else** (research, writing, checks, cards, renders) runs in Claude's workspace, which has Chromium,
@@ -199,5 +200,6 @@ credits, picking the MP4 in YouTube Studio, publishing.
 2. ElevenLabs: an API key with Text to Speech access, saved with `python3 voice.py setup`; the brand's narrator voice
    in the account's My Voices.
 3. Claude in Chrome, with Gemini, Higgsfield, YouTube Studio (the brand channel) and Instagram signed in.
-4. The Higgsfield connector: Claude > Settings > Connectors > Add custom connector, `https://mcp.higgsfield.ai/mcp`.
+4. The Higgsfield connector: Claude > Customize > Connectors, search Higgsfield, Connect Higgsfield AI and sign in
+   (it's in the directory; org members can't add custom connectors).
 5. Optional: `pip3 install faster-whisper` (the word check); Know Your Meme sitemaps in ~/Downloads/memes.

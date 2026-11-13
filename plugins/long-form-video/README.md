@@ -5,6 +5,8 @@ Claude researches, writes and checks the script, makes the pictures and clips in
 chapters, cuts every short, and writes the title, description and tags. The narrator is an ElevenLabs voice that
 runs in your Terminal. Nothing is filmed.
 
+[Watch the 1:39 walkthrough](https://youtu.be/Jyn6fKyKSBc): the setup and a first video, start to finish.
+
 Three formats (each one's rules are in `skills/long-form-video/formats/`):
 
 | Format | What it is | Shorts |
@@ -28,11 +30,13 @@ look). Another brand is another folder in `skills/long-form-video/brands/`.
 ## Install (once)
 
 1. In Claude open **Customize**, then **Plugins**. If the novacrest-skills marketplace isn't there yet: **+ Add**,
-   **Add marketplace**, type `altacrest/novacrest-skills`, choose **Use "altacrest/novacrest-skills"**, **Sync**.
-2. Find **Long-form video** and click **Install**.
-3. The Higgsfield connector: Claude **Settings**, **Connectors**, **Add custom connector**. Name it Higgsfield, paste
-   `https://mcp.higgsfield.ai/mcp`, then **Connect** and sign in with the Higgsfield account. It reads the credits and
-   finds each finished clip; the clips themselves are made in the Higgsfield web app in Chrome.
+   **Add marketplace**, type `altacrest/novacrest-skills`, choose **Use "altacrest/novacrest-skills"**, **Sync**. If
+   it's there but Long-form video doesn't show: **+ Add**, **Manage marketplaces**, the **⋯** next to novacrest-skills,
+   **Check for updates**.
+2. Find **Long-form video** under **Discover** and click its **+** to install it.
+3. The Higgsfield connector: in Claude open **Customize**, then **Connectors**, search **Higgsfield**, and **Connect**
+   Higgsfield AI (it's in the directory, so no custom connector is needed). Sign in with the Higgsfield account. It
+   reads the credits and finds each finished clip; the clips themselves are made in the Higgsfield web app in Chrome.
 4. ElevenLabs: in ElevenLabs open **Developers**, **API keys**, **Create API key**, leave **Restrict Key** on and set
    **Text to Speech** to **Access** (and **User** to **Read** to see credits). Then open **Voices**, **Voice Library**,
    find the brand's narrator (BinLogic's is David - The Movie Trailer) and add it to **My Voices**. The first time
