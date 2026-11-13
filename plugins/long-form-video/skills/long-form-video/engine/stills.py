@@ -8,9 +8,11 @@
       checks every prompt (filled, at most the brand's max_chars with its pre and tail) and writes two page scripts:
       out/gemini_queue.js (sends each prompt in one Gemini chat and waits for each picture) and
       out/gemini_download.js (places each picture's download button for a real click, and logs the clicks)
-  python3 stills.py collect --clicks <video folder>/clicks.json --out <video folder>/images [--downloads ~/Downloads] [--dry-run]
+  python3 stills.py collect --clicks <video folder>/clicks.json --out <video folder>/images [--downloads <folder>] [--dry-run]
       files the downloads as images/<look id>.jpg (runs on the user's computer, from a copy of this file). Gemini names every file Gemini_Generated_Image_<random>, so each
       click's time window must hold exactly one new file; anything unclear stays in Downloads and is reported.
+      Downloads defaults to the Downloads folder the video folder sits in (~/Downloads in the user's Terminal,
+      $HOME/mnt/Downloads in Claude's shell on their computer).
   python3 engine/stills.py check <video folder>
       the brand's style check on every still (style_check.py) and the looks that have no still yet
 
@@ -206,11 +208,21 @@ def cmd_queue(a):
     print("wrote out/gemini_queue.js (%d prompts) and out/gemini_download.js" % len(items))
 
 
+def downloads_dir(out):
+    """where the browser saves: the Downloads folder the video folder sits in (~/Downloads/<slug>/), else the
+    connected Downloads in Claude's shell on the user's computer ($HOME/mnt/Downloads), else ~/Downloads"""
+    video = Path(out).expanduser().resolve().parent
+    for d in (video.parent, Path.home() / "mnt" / "Downloads", Path.home() / "Downloads"):
+        if d.name == "Downloads" and d.is_dir():
+            return d
+    return Path.home() / "Downloads"
+
+
 def cmd_collect(a):
     from PIL import Image
     data = json.loads(Path(a.clicks).read_text())
     clicks = sorted(((str(n), t / 1000.0) for n, t in data["clicks"]), key=lambda x: x[1])
-    dl = Path(a.downloads).expanduser()
+    dl = Path(a.downloads).expanduser() if a.downloads else downloads_dir(a.out)
     files = [p for p in dl.glob("Gemini_Generated_Image_*") if p.suffix.lower() in (".jpeg", ".jpg", ".png")]
     mt = {p: p.stat().st_mtime for p in files}
     out = Path(a.out).expanduser()
@@ -269,7 +281,7 @@ def main():
     c = sub.add_parser("collect")
     c.add_argument("--clicks", required=True)
     c.add_argument("--out", required=True, help="the video folder's images folder")
-    c.add_argument("--downloads", default=str(Path.home() / "Downloads"))
+    c.add_argument("--downloads", help="where the browser saves (default: the Downloads folder the video folder is in)")
     c.add_argument("--dry-run", action="store_true")
     k = sub.add_parser("check")
     k.add_argument("video")

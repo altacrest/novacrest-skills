@@ -6,7 +6,7 @@
       over 4 seconds inside the body (a missing take shows up here), black over 1 second, stills still missing, and
       contact sheets of every section card, the middle of every look, every brand card and the end, for a person to
       look at: out/qa/<slug>_sheet_N.jpg
-  python3 engine/qa.py shorts <video folder> [--only short-seg-003]
+  python3 engine/qa.py shorts <video folder> [--only seg-003 or short-seg-003]
       1080x1920, audio, length (a short over 3 minutes won't post; over 60 seconds gets a note), loudness, and every
       caption drawn alone by libass and measured against the safe margins; a contact sheet out/qa/shorts_all.jpg
 Exits 1 on any problem.
@@ -160,7 +160,8 @@ def cmd_shorts(a):
     odir = video.out / "shorts"
     index = json.loads((odir / "shorts.json").read_text())
     only = {x.strip() for x in a.only.split(",") if x.strip()}
-    rows = [r for r in index if (not only or r["id"] in only) and not r.get("skipped")]
+    rows = [r for r in index if (not only or r["id"] in only or r["id"].removeprefix("short-") in only)
+            and not r.get("skipped")]
     fails, sheet = 0, []
     with tempfile.TemporaryDirectory() as tmp:
         for r in rows:

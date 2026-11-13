@@ -1,7 +1,7 @@
 {
   "name": "long-form-video",
   "displayName": "Long-form video",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Make a narrated long-form YouTube video and its shorts for a Novacrest brand: an iceberg, an answers video or an argument (the problem, the futures, the verdict, the fix). Research, script, ElevenLabs narration, Blueprint-style stills from Gemini, Higgsfield clips, a rendered MP4, shorts, QA and the upload text.",
   "author": { "name": "Sean Adams" },
   "keywords": ["video", "youtube", "long-form", "iceberg", "shorts", "elevenlabs", "higgsfield", "narration"]

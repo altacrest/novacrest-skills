@@ -78,6 +78,10 @@ It lives on the user's computer, `~/Downloads/<slug>/`, and Claude keeps a worki
     music/          the brand's music bed (brand.json says which file; it isn't in the repo)
     out/            the video, its timeline, the shorts, youtube.txt, sources.md, the thumbnail, qa/
 
+On the user's computer the folder is `~/Downloads/<slug>/` in their own Terminal and `$HOME/mnt/Downloads/<slug>/` in
+device_bash (the connected Downloads folder); device_stage_files and device_commit_files take its path on the
+computer, under the folder get_device_info lists.
+
 Copy text files Claude writes to the user's folder with device_commit_files. Copy what the user's computer makes
 (voice/, downloaded stills and clips, music/) into the working copy with device_stage_files, at most 50 files a call.
 
@@ -108,9 +112,9 @@ search demand for answers, documented failures and real drivers for an argument.
    `## OUTRO`. A direction belongs to the paragraph above it (or below it, when it opens the block). The examples
    show each one. Write for the ear: short sentences, numbers as words, no symbols.
 2. `python3 engine/lint.py <folder>`: rewrite only the flagged sentences until it reports 0 FAIL.
-3. The meme pass, iceberg and answers only: `python3 engine/memes.py suggest <folder>/script.md` (the Know Your Meme
-   sitemaps the user saved in ~/Downloads/memes), pick at most one per segment, then `memes.py check`. Skip it when
-   there are no sitemaps.
+3. The meme pass, iceberg and answers only: stage the Know Your Meme sitemaps the user saved in ~/Downloads/memes into
+   the workspace, then `python3 engine/memes.py suggest <folder>/script.md --memes <that folder>`, pick at most one per
+   segment, then `memes.py check` with the same `--memes`. Skip it when there are no sitemaps.
 4. Red team: a second pass whose only job is finding what's wrong: dates, numbers, names, quotes, claims a source
    doesn't support, anything that reads as a product claim the claims files don't hold. Fix or cut every finding.
 5. `python3 engine/compile.py <folder>` until it reports no FAIL. Show the user the outline (sections, segment titles,
@@ -149,8 +153,10 @@ is made again. Copy voice/ into the working copy, then render the pilot (`assemb
 2. Make them in higgsfield.ai's video tool as the header of `clips.py` says: the still as the start frame, plan.json's
    prompt, 5 s. Find each finished clip with the connector's `show_generations`, look at its first, middle and last
    frames, and drop any clip that turns the drawing into a photo or 3D, warps it, or adds text.
-3. Download the kept clips (the user's yes first), `python3 clips.py collect --as <look id> --out clips` on the user's
-   computer after each, copy clips/ into the working copy, `python3 engine/clips.py check <folder>`.
+3. Download the kept clips one at a time, as the header of `clips.py` says (the user's yes first). After each one, in
+   the video folder on the user's computer (device_bash; copy `engine/clips.py` there once):
+   `python3 clips.py collect --as <look id> --out clips`. Then copy clips/ into the working copy and run
+   `python3 engine/clips.py check <folder>`.
 
 A look without a clip simply holds its still; the video never waits on clips.
 

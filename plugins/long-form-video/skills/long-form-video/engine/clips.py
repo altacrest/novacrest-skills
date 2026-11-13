@@ -5,9 +5,11 @@
       writes clips/plan.json: which looks get a clip, in order (looks with a *(clip: ...)* direction first, then one
       per segment in order, up to --max or video.json's "clips"), each with its still, the motion prompt (the brand's
       clip_prompt with the direction's motion, or the brand's default motion) and the negative prompt.
-  python3 clips.py collect --as <look id> --out <video folder>/clips [--downloads ~/Downloads] [--since <epoch seconds>]
+  python3 clips.py collect --as <look id> --out <video folder>/clips [--downloads <folder>] [--since <epoch seconds>]
       files the newest .mp4 in Downloads (newer than --since) as clips/<look id>.mp4. Download one clip at a time,
       then collect it, so there's never a doubt which file is which. Runs on the user's computer from a copy of this file.
+      Downloads defaults to the Downloads folder the video folder sits in, so it works in the user's Terminal
+      (~/Downloads) and in Claude's shell on their computer ($HOME/mnt/Downloads) alike.
   python3 engine/clips.py check <video folder>
       planned looks with and without a clip, and each clip's length and size (a clip under 2 seconds is dropped)
 
@@ -20,7 +22,15 @@ Making the clips (SKILL.md, Step 6), in the Higgsfield web app in the user's sig
      upload tile's file input and using file_upload on it), the prompt from plan.json, 5 s, 720p, Generate.
      A clip takes about 4 minutes; several can run at once.
   3. When a clip shows in History, show_generations lists it first (kling3_0_turbo, with its .mp4 link). Downloads need
-     the user's yes (one yes for the batch: how many files, from Higgsfield, into Downloads). Then collect each one.
+     the user's yes (one yes for the batch: how many files, from Higgsfield, into Downloads). Then, one clip at a time,
+     in the Higgsfield tab (the CDN lets higgsfield.ai fetch the file), javascript_tool:
+       const u = "<the .mp4 link>", b = await (await fetch(u)).blob(), a = document.createElement("a");
+       a.href = URL.createObjectURL(b); a.download = u.split("/").pop(); a.textContent = "DOWNLOAD THE CLIP";
+       a.style.cssText = "position:fixed;top:40%;left:40%;z-index:99999;padding:30px;background:#fff;color:#000;font:700 22px sans-serif";
+       document.body.appendChild(a); window.__clipLink = a; JSON.stringify(a.getBoundingClientRect())
+     then a real computer left_click inside that box, and `window.__clipLink.remove()` once the file is in Downloads.
+     Chrome lets a page start one download by script (a.click()) and drops the rest, so after the first clip the click
+     has to be a real one. Collect each clip before downloading the next.
   4. Look at three frames of each clip before keeping it (the start, the middle, the end).
 """
 import argparse
@@ -72,8 +82,18 @@ def cmd_plan(a):
     print("wrote clips/plan.json: %d clips (cap %d)%s" % (len(plan), cap, "; no still yet for %s" % ", ".join(no_still) if no_still else ""))
 
 
+def downloads_dir(out):
+    """where the browser saves: the Downloads folder the video folder sits in (~/Downloads/<slug>/), else the
+    connected Downloads in Claude's shell on the user's computer ($HOME/mnt/Downloads), else ~/Downloads"""
+    video = Path(out).expanduser().resolve().parent
+    for d in (video.parent, Path.home() / "mnt" / "Downloads", Path.home() / "Downloads"):
+        if d.name == "Downloads" and d.is_dir():
+            return d
+    return Path.home() / "Downloads"
+
+
 def cmd_collect(a):
-    dl = Path(a.downloads).expanduser()
+    dl = Path(a.downloads).expanduser() if a.downloads else downloads_dir(a.out)
     since = a.since or (time.time() - 3600)
     vids = sorted((p for p in dl.glob("*.mp4") if p.stat().st_mtime >= since), key=lambda p: p.stat().st_mtime)
     if not vids:
@@ -121,7 +141,7 @@ def main():
     c = sub.add_parser("collect")
     c.add_argument("--as", dest="as_", required=True, help="the look id this clip belongs to")
     c.add_argument("--out", required=True, help="the video folder's clips folder")
-    c.add_argument("--downloads", default=str(Path.home() / "Downloads"))
+    c.add_argument("--downloads", help="where the browser saves (default: the Downloads folder the video folder is in)")
     c.add_argument("--since", type=float, help="only files newer than this (epoch seconds); default the last hour")
     c.add_argument("--newest", action="store_true", help="take the newest even when there are several")
     c.add_argument("--replace", action="store_true")
