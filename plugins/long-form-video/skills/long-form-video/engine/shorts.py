@@ -9,7 +9,8 @@ What becomes a short depends on the format (formats/*.md):
 
 Nothing is voiced or drawn again. Each short has the segment's own take (trimmed to the words for a marked short),
 the brand's music under it (ducked) and loudness at -14 LUFS; the look's Higgsfield clip when there is one, then its
-still panned across the frame; the head block (AI badge, kicker, title, source); word-by-word captions spelled from
+still panned across the frame, both opening on the picture's subject (focus_x: the colour that stands out from the
+picture's main hue, like the photoreal hero in a blueprint world); the head block (AI badge, kicker, title, source); word-by-word captions spelled from
 the script and timed by the take's word times; the brand card on the card words; a 2.8-second end card that points
 to the full video. Text stays inside the Shorts/Reels safe area. Writes out/shorts/<short id>.mp4 and
 out/shorts/shorts.json. A short that already exists is kept unless --force.
@@ -117,8 +118,37 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     Path(path).write_text(head + "\n".join(lines) + "\n")
 
 
-def vplate(src, out, k, from_center=False):
-    """the picture at 1.5x the frame's height, and the pan across it"""
+def focus_x(src):
+    """where the picture's subject sits, as a fraction of its width: the middle of the frame-wide window (a vertical
+    frame's share of the picture) that holds the most colour standing out from the picture's main hue. None when
+    nothing stands out, and the short keeps its usual framing."""
+    import numpy as np
+    from PIL import Image
+    im = Image.open(src).convert("RGB")
+    frac = min(1.0, (W / H) * (im.height / im.width))
+    im.thumbnail((320, 320))
+    hsv = np.asarray(im.convert("HSV"), dtype=np.float32) / 255.0
+    hue, chroma = hsv[..., 0] * 2 * np.pi, hsv[..., 1] * hsv[..., 2]
+    main = np.angle((chroma * np.exp(1j * hue)).sum())
+    far = np.abs(np.angle(np.exp(1j * (hue - main))))              # 0 (the main hue) .. pi (its opposite)
+    w = np.where((far > np.pi / 4) & (chroma > 0.10), chroma * far / np.pi, 0.0)
+    col = w.sum(axis=0)
+    total = float(col.sum())
+    if total < 0.001 * w.size or frac >= 1.0:
+        return None
+    n = len(col)
+    k = max(1, round(frac * n))
+    sums = np.convolve(col, np.ones(k), mode="valid")
+    mids = (np.arange(len(sums)) + k / 2) / n
+    best = int((sums * (1 - 0.3 * np.abs(mids - 0.5))).argmax())     # a slight pull toward the middle
+    if sums[best] < 1.3 * frac * total:                                # spread all over: no one place stands out
+        return None
+    part = col[best:best + k]                                           # then centre on the subject inside it
+    return round(float(((np.arange(best, best + k) + 0.5) * part).sum() / part.sum() / n), 3)
+
+
+def vplate(src, out, k, from_center=False, fx=None):
+    """the picture at 1.5x the frame's height, and the pan across it (from the subject at fx, when there is one)"""
     from PIL import Image
     im = Image.open(src).convert("RGB")
     cw, ch = round(W * SS), round(H * SS)
@@ -127,7 +157,11 @@ def vplate(src, out, k, from_center=False):
         im = im.resize((max(cw, round(im.width * s)), ch), Image.LANCZOS)
         r = im.width - cw
         a, b = (0.2 * r, 0.8 * r) if k % 2 else (0.8 * r, 0.2 * r)
-        if from_center:
+        if fx is not None:
+            a = min(max(0.0, fx * im.width - cw / 2), r)
+            if abs(a - 0.5 * r) > 0.05 * r:
+                b = 0.2 * r if a > 0.5 * r else 0.8 * r            # then across the rest of the picture
+        elif from_center:
             a = 0.5 * r
         pan = ("x", a, b)
     else:
@@ -308,15 +342,19 @@ def main():
         clip_s = 0.0
         if j["clip"]:
             clip_s = min(dur(j["clip"]), tend - 1.0)
-            ins += ["-i", j["clip"]]
-            g.append("[0:v]setpts=PTS-STARTPTS,fps=%d,scale=-2:%d,crop=%d:%d,setsar=1,trim=duration=%.3f,format=yuv420p[c]"
-                     % (FPS, H, W, H, clip_s))
             from assemble import last_frame
             src = last_frame(Path(j["clip"]), work / "plates" / ("last_%s.png" % j["id"]))
+            fx = focus_x(src)
+            at = ":x='min(max(0,%.4f*iw-%d),iw-%d)':y=0" % (fx, W // 2, W) if fx is not None else ""
+            ins += ["-i", j["clip"]]
+            g.append("[0:v]setpts=PTS-STARTPTS,fps=%d,scale=-2:%d,crop=%d:%d%s,setsar=1,trim=duration=%.3f,format=yuv420p[c]"
+                     % (FPS, H, W, H, at, clip_s))
         else:
             src = j["img"]
+            fx = focus_x(src)
+        index[-1]["focus"] = fx
         pl = work / "plates" / ("p_%s.jpg" % j["id"])
-        axis, p0, p1 = vplate(src, pl, k, from_center=bool(j["clip"]))
+        axis, p0, p1 = vplate(src, pl, k, from_center=bool(j["clip"]), fx=fx)
         rest = T - clip_s
         span = max(0.5, rest - ENDLEN - 0.2)
         move = "%.1f+(%.1f)*min(t/%.2f,1)" % (p0, p1 - p0, span)
@@ -355,8 +393,9 @@ def main():
         ff(*ins, "-i", mix, "-filter_complex", ";".join(g), "-map", "[v]", "-map", "%d:a" % ai, "-af", ln,
            "-c:v", "libx264", "-preset", "veryfast", "-tune", "stillimage", "-crf", 21, "-pix_fmt", "yuv420p", "-r", FPS,
            "-c:a", "aac", "-b:a", "192k", "-ar", 48000, "-movflags", "+faststart", "-t", "%.3f" % T, out)
-        print("  %-22s %-40s %5.1fs%s%s" % (j["id"], (s["title"] or "")[:40], T, "  + clip" if j["clip"] else "",
-                                             "  + brand card" if j["window"] else ""), flush=True)
+        print("  %-22s %-40s %5.1fs%s%s  %s" % (j["id"], (s["title"] or "")[:40], T, "  + clip" if j["clip"] else "",
+                                                 "  + brand card" if j["window"] else "",
+                                                 "subject at %d%%" % round(fx * 100) if fx is not None else "no clear subject"), flush=True)
     old = odir / "shorts.json"
     if old.exists() and only:
         keep = {r["id"]: r for r in json.loads(old.read_text())}

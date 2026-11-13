@@ -141,6 +141,9 @@ def why(status, content):
                 "find the voice named in manifest.json (narrator) and add it to My Voices. Then run this again.")
     if "missing_permissions" in text:
         return "the key doesn't have this permission (%s)" % text
+    if "free" in text.lower() and any(w in text.lower() for w in ("library", "upgrade", "subscription")):
+        return ("the narrator is a Voice Library voice, and ElevenLabs doesn't let free accounts use those through the API. "
+                "Use a key from an account on a paid plan (%s)" % text)
     if "quota" in text.lower() or "credits" in text.lower():
         return "the ElevenLabs account is out of credits (%s)" % text
     return "ElevenLabs answered %d: %s" % (status, text)

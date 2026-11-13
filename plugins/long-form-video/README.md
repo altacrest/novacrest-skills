@@ -21,7 +21,8 @@ look). Another brand is another folder in `skills/long-form-video/brands/`.
 - The Claude desktop app with Claude in Chrome, and a folder connected (your Downloads).
 - In Chrome, signed in: Gemini (gemini.google.com, for the stills), Higgsfield (the team account, for the clips),
   YouTube Studio for the brand's channel, and Instagram for Reels. Claude never signs in for you.
-- An ElevenLabs API key (the Novacrest account; ask Sean for access), with the brand's narrator in My Voices.
+- Your own ElevenLabs API key, from an account on a paid plan (free accounts can't use Voice Library voices through
+  the API), with the brand's narrator added to My Voices.
 - The Mac's Terminal, for one command per video (the voice).
 
 ## Install (once)
@@ -33,8 +34,10 @@ look). Another brand is another folder in `skills/long-form-video/brands/`.
    `https://mcp.higgsfield.ai/mcp`, then **Connect** and sign in with the Higgsfield account. It reads the credits and
    finds each finished clip; the clips themselves are made in the Higgsfield web app in Chrome.
 4. ElevenLabs: in ElevenLabs open **Developers**, **API keys**, **Create API key**, leave **Restrict Key** on and set
-   **Text to Speech** to **Access** (and **User** to **Read** to see credits). The first time Claude gives you the voice
-   command, run `python3 voice.py setup` first and paste the key (typing is hidden). Never paste a key into Claude.
+   **Text to Speech** to **Access** (and **User** to **Read** to see credits). Then open **Voices**, **Voice Library**,
+   find the brand's narrator (BinLogic's is David - The Movie Trailer) and add it to **My Voices**. The first time
+   Claude gives you the voice command, run `python3 voice.py setup` first and paste the key (typing is hidden). Never
+   paste a key into Claude.
 5. Optional: `pip3 install faster-whisper` in Terminal, so every take is checked word by word.
 
 In Claude Code: `/plugin install long-form-video --marketplace altacrest/novacrest-skills`.
@@ -60,6 +63,8 @@ What you'll do along the way:
 - **"couldn't reach ElevenLabs"**: run the voice command in your own Terminal, not inside Claude.
 - **"the narrator voice isn't in this ElevenLabs account"**: add the voice named in the brand's `brand.json` from the
   Voice Library to My Voices.
+- **"ElevenLabs doesn't let free accounts use those"**: the narrator is a Voice Library voice; the key has to come
+  from an account on a paid plan.
 - **Not enough credits**: voice the pilot now and the rest after the monthly reset.
 - **A word sounds wrong**: tell Claude which one; it adds a spoken spelling and gives you a command to redo that part.
 - **A still or clip looks off**: tell Claude which; it makes that one again.
