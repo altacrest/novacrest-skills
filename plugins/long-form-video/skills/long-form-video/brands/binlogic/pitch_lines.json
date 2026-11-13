@@ -1,0 +1,36 @@
+{
+ "product": "BinLogic",
+ "note": "Self-sponsor lines for the videos. A capability that isn't on the public site is pitched as something the BinLogic team builds into the client's setup, never as something the product already does. Frame lines are plain facts about who made the video and where demos are booked.",
+ "lines": [
+  {
+   "type": "assert",
+   "source": "video_pitch",
+   "text": "If you need every case traced by lot number and expiry date, the BinLogic team builds that into your setup."
+  },
+  {
+   "type": "assert",
+   "source": "video_pitch",
+   "text": "If you need to know where every single unit is, the BinLogic team builds item-level tracking into your setup."
+  },
+  {
+   "type": "assert",
+   "source": "video_pitch",
+   "text": "If your labels need the new QR-style barcodes, the BinLogic team sets that up with you."
+  },
+  {
+   "type": "assert",
+   "source": "video_pitch",
+   "text": "The BinLogic team builds your warehouse system around how your warehouse already works."
+  },
+  {
+   "type": "frame",
+   "source": "video_pitch",
+   "text": "This video was made by the BinLogic team."
+  },
+  {
+   "type": "frame",
+   "source": "video_pitch",
+   "text": "You can book a demo at binlogic dot io."
+  }
+ ]
+}

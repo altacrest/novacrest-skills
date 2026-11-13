@@ -1,0 +1,46 @@
+{
+  "name": "BinLogic",
+  "site": "binlogic.io",
+  "cta": "Book a demo at binlogic.io",
+  "end_cta": "Book a demo",
+  "pitch_name": "bin ?logic",
+  "youtube": {
+    "channel": "@binlogic-soft",
+    "channel_id": "UCnKayzeWOzvGi-CSgUm13xA",
+    "category_id": "27",
+    "made_for_kids": false,
+    "altered_content": true,
+    "tags": ["BinLogic", "warehouse", "logistics", "supply chain", "inventory", "warehouse management"],
+    "hashtags": "#warehouse #logistics #supplychain"
+  },
+  "instagram": "@binlogic.soft",
+  "narrator": {
+    "voice": "David - The Movie Trailer",
+    "voice_id": "laTmoAT4stwoPzthxjZT",
+    "model": "eleven_multilingual_v2",
+    "settings": {"stability": 0.45, "similarity_boost": 0.8, "style": 0.35, "use_speaker_boost": true},
+    "seed": 1941,
+    "wpm": 133,
+    "note": "A Voice Library voice: the ElevenLabs account needs it under My Voices."
+  },
+  "music": {
+    "file": "music/First_Light_Above_The_Field.mp3",
+    "note": "Not in the repo. Ask the marketing team for the track and put it in the video folder's music/ folder. Without it the video has no music bed."
+  },
+  "claims": ["claims.json", "pitch_lines.json"],
+  "competitors": ["ShipStation", "Cin7", "Fishbowl", "Manhattan Associates", "Fluent Commerce", "Kibo", "Zoho Inventory",
+                  "Linnworks", "ShipHero", "Extensiv", "Logiwa", "Deposco", "NetSuite WMS", "Infoplus"],
+  "style": "style.md",
+  "look": {
+    "paper": "#EAF2FB",
+    "grid": "rgba(31, 111, 208, .10)",
+    "grid_major": "rgba(31, 111, 208, .18)",
+    "ink": "#0B3D91",
+    "line": "#1F6FD0",
+    "fill": "#7CB6F2",
+    "text": "#0B2A5C",
+    "caption_active": "#7CB6F2",
+    "logo": "logo.svg",
+    "logo_on_dark": "logo-reversed.svg"
+  }
+}

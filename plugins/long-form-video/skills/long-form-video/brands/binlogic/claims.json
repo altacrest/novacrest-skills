@@ -1,0 +1,48 @@
+{
+  "product": "BinLogic",
+  "site": "binlogic.io",
+  "status": "Lines drawn from the public site. A sentence that names the product must match one of these (lint.py checks it).",
+  "rules": {
+    "assert": "may be stated plainly",
+    "hedge": "must keep its hedge word",
+    "forbidden": [
+      "any sentence about another of the company's products",
+      "customer names",
+      "numbers about customers, orders or revenue",
+      "comparisons naming a competitor",
+      "case studies, customer counts, customer logos or testimonials"
+    ]
+  },
+  "lines": [
+    {
+      "type": "assert",
+      "source": "public_site",
+      "text": "BinLogic is a warehouse management system for brands and retailers that run their own fulfillment."
+    },
+    {
+      "type": "assert",
+      "source": "public_site",
+      "text": "BinLogic is built mobile-first: floor work such as receiving, putaway, picking and cycle counts runs on a handheld device."
+    },
+    {
+      "type": "assert",
+      "source": "public_site",
+      "text": "BinLogic supports multi-location retail operations, including store transfers and cycle counting."
+    },
+    {
+      "type": "hedge",
+      "source": "public_site",
+      "text": "BinLogic can support buy-online-pick-up-in-store workflows where store inventory is tracked in the system."
+    },
+    {
+      "type": "assert",
+      "source": "public_site",
+      "text": "binlogic.io hosts free tools: a freight identifier validator (freightID) and an SSCC-18 label generator."
+    },
+    {
+      "type": "assert",
+      "source": "public_site",
+      "text": "Demos are booked from the site (\"Get a demo\")."
+    }
+  ]
+}

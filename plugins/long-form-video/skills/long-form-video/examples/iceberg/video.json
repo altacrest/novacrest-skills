@@ -1,0 +1,2 @@
+{"title": "The Example Iceberg", "slug": "example-iceberg", "brand": "binlogic", "format": "iceberg",
+ "target_minutes": 2, "levels": 2, "entries": 4, "clips": 2}

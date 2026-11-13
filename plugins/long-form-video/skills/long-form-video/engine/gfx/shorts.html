@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Long-form video: shorts overlays</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  /* 1080x1920 overlays for the vertical shorts. Text stays inside the Shorts/Reels safe area: clear of the top 8%
+     (app bar), the right 150px (like, comment, share) and the bottom 20% (caption and handle). Captions are drawn
+     by libass (shorts.py), not here. */
+  body { width: 1080px; height: 1920px; position: relative; }
+  .head { position: absolute; left: 56px; top: 154px; width: 860px; display: flex; flex-direction: column;
+    align-items: flex-start; gap: 16px; }
+  .card { padding: 22px 28px 26px 26px; display: flex; flex-direction: column; gap: 12px; max-width: 860px; }
+  .kick { font-size: 25px; color: var(--line); font-weight: 700; }
+  .title { font: 900 78px/1.0 var(--title); color: var(--ink); letter-spacing: -.015em; text-wrap: balance; }
+  .title b { color: var(--line); margin-right: 14px; }
+  .source { font: 400 21px/1.3 var(--label); color: var(--ink); background: rgba(234,242,251,.92);
+    padding: 9px 14px 8px; border-radius: 4px; max-width: 860px; }
+  .source b { font-weight: 700; letter-spacing: .14em; color: var(--line); margin-right: 10px; }
+  .cta { position: absolute; left: 56px; top: 860px; width: 860px; padding: 28px 32px 30px;
+    display: flex; flex-direction: column; gap: 16px; border-left: 0; border-top: 8px solid var(--line); border-radius: 0 0 10px 10px; }
+  .cta img { height: 50px; align-self: flex-start; }
+  .cta .say { font: 600 33px/1.3 var(--title); color: var(--text); }
+  .cta .go { font: 700 30px/1 var(--label); letter-spacing: .1em; color: var(--ink); text-transform: uppercase; }
+  .end .col { position: absolute; left: 90px; right: 90px; top: 440px; display: flex; flex-direction: column;
+    align-items: center; text-align: center; gap: 30px; }
+  .end .eyebrow { font-size: 30px; color: var(--line); font-weight: 700; }
+  .end .name { font: 900 104px/1.0 var(--title); color: var(--ink); letter-spacing: -.02em; text-wrap: balance; }
+  .end .watch { font: 700 40px/1 var(--label); letter-spacing: .08em; text-transform: uppercase; color: var(--ink);
+    border: 3px solid var(--ink); background: rgba(124,182,242,.3); border-radius: 12px; padding: 24px 30px 20px; margin-top: 12px; }
+  .end img { height: 66px; margin-top: 60px; }
+  .end .url { font: 700 34px/1 var(--label); letter-spacing: .12em; color: var(--line); }
+</style>
+</head>
+<body>
+<script>
+  const B = window.BRAND || {}, X = window.EXTRA || {}, L = B.look || {};
+  const q = new URLSearchParams(location.search), kind = q.get("kind") || X.kind;
+  const esc = s => String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const root = document.documentElement.style;
+  for (const [k, v] of Object.entries({paper: L.paper, grid: L.grid, "grid-major": L.grid_major, ink: L.ink,
+       line: L.line, fill: L.fill, text: L.text})) if (v) root.setProperty("--" + k, v);
+  const logo = B.dir ? `file://${B.dir}/${L.logo}` : "";
+  let html = "";
+  if (kind === "head") html = `<div class="head"><div class="pill">${esc(X.badge || "AI IMAGE")}</div>
+      <div class="card panel">${X.kicker ? `<div class="kick mono">${esc(X.kicker)}</div>` : ""}
+      <div class="title">${X.n ? `<b>#${esc(X.n)}</b>` : ""}${esc(X.title)}</div></div>
+      ${X.source ? `<div class="source"><b>SOURCE</b>${esc(X.source)}</div>` : ""}</div>`;
+  if (kind === "pitch") html = `<div class="cta panel"><img src="${logo}" alt="">
+      <div class="say">${esc(X.say)}</div><div class="go">${esc(B.cta || "")}</div></div>`;
+  if (kind === "end") html = `<div class="end paper full"><div class="col">
+      <div class="eyebrow mono">${esc(X.eyebrow || "")}</div><div class="name">${esc(X.video_title)}</div>
+      <div class="watch">Full video on YouTube</div><img src="${logo}" alt=""><div class="url">${esc(B.site || "")}</div></div></div>`;
+  document.body.insertAdjacentHTML("beforeend", html);
+  Promise.all([...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r; })))
+    .then(() => { window.READY = true; });
+</script>
+</body>
+</html>

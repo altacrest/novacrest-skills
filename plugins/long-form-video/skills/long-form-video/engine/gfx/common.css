@@ -1,0 +1,35 @@
+/* The engine's cards and overlays. Colors come from the brand pack (brand.json "look"), set on :root by the page
+   script before anything renders; the values below are only fallbacks. Fonts are bundled (SIL OFL, see fonts/). */
+@font-face { font-family: "Inter"; font-weight: 400; src: url("fonts/inter-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; src: url("fonts/inter-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 800; src: url("fonts/inter-latin-800-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 900; src: url("fonts/inter-latin-900-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 400; src: url("fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 700; src: url("fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
+
+:root {
+  --paper: #EAF2FB; --grid: rgba(31, 111, 208, .10); --grid-major: rgba(31, 111, 208, .18);
+  --ink: #0B3D91; --line: #1F6FD0; --fill: #7CB6F2; --text: #0B2A5C;
+  --title: "Inter", system-ui, sans-serif; --label: "JetBrains Mono", ui-monospace, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: transparent; overflow: hidden; }
+body { font-family: var(--title); color: var(--text); -webkit-font-smoothing: antialiased; }
+
+/* blueprint paper: a fine grid every 24px and a stronger one every 96px */
+.paper { background-color: var(--paper);
+  background-image: linear-gradient(var(--grid-major) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, var(--grid-major) 1.5px, transparent 1.5px),
+    linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px; }
+.full { position: absolute; inset: 0; }
+.mono { font-family: var(--label); text-transform: uppercase; letter-spacing: .18em; }
+.ticks::before, .ticks::after { content: ""; position: absolute; width: 46px; height: 46px; border: 0 solid var(--line); }
+.ticks::before { left: 40px; top: 40px; border-left-width: 3px; border-top-width: 3px; }
+.ticks::after { right: 40px; bottom: 40px; border-right-width: 3px; border-bottom-width: 3px; }
+.rule { height: 4px; background: var(--line); width: 220px; }
+.pill { font: 700 22px/1 var(--label); letter-spacing: .16em; text-transform: uppercase; color: var(--ink);
+  background: rgba(234, 242, 251, .94); border: 2px solid var(--ink); border-radius: 6px; padding: 11px 14px 9px 16px;
+  box-shadow: 0 4px 16px rgba(11, 42, 92, .18); }
+.panel { background: rgba(234, 242, 251, .95); border-left: 8px solid var(--line);
+  box-shadow: 0 10px 34px rgba(11, 42, 92, .22); }

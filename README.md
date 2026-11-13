@@ -5,6 +5,7 @@ Claude plugins the Novacrest marketing team shares. Add this repository to Claud
 | Plugin | What it does |
 | --- | --- |
 | [How-to video](plugins/motion-how-to-video) | A narrated how-to video of any app flow: real screens, a Claude Motion film, an English voice under each caption, one MP4. [Watch how it works](https://github.com/altacrest/novacrest-skills/releases/download/v2.0.0/how-to-video.mp4). |
+| [Long-form video](plugins/long-form-video) | A narrated long-form YouTube video and its shorts: an iceberg, an answers video or an argument. Research, script, ElevenLabs voice, Blueprint-style stills, Higgsfield clips, an MP4 with chapters, shorts and the upload text. |
 
 ## Install in the Claude app
 
@@ -21,6 +22,7 @@ Inside Claude Code (version 2.1.275 or later), one line:
 
 ```
 /plugin install motion-how-to-video --marketplace altacrest/novacrest-skills
+/plugin install long-form-video --marketplace altacrest/novacrest-skills
 ```
 
 Or from a terminal:
@@ -28,6 +30,7 @@ Or from a terminal:
 ```
 claude plugin marketplace add altacrest/novacrest-skills
 claude plugin install motion-how-to-video@novacrest-skills
+claude plugin install long-form-video@novacrest-skills
 ```
 
 ## Without the marketplace
